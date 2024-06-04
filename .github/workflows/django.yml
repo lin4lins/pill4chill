@@ -11,14 +11,14 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      SECRET_KEY: ${{ vars.SECRET_KEY }}
-      DEBUG: ${{ vars.DEBUG }}
-      POSTGRES_ENGINE: ${{ vars.POSTGRES_ENGINE }}
-      POSTGRES_DB_NAME: ${{ vars.DB_NAME }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DEBUG: ${{ secrets.DEBUG }}
+      POSTGRES_ENGINE: ${{ secrets.POSTGRES_ENGINE }}
+      POSTGRES_DB_NAME: ${{ secrets.POSTGRES_DB_NAME }}
       POSTGRES_USER: ${{ secrets.DB_USER }}
-      POSTGRES_PASSWORD: ${{ vars.DB_PASSWORD }}
-      POSTGRES_HOST: ${{ vars.POSTGRES_HOST }}
-      POSTGRES_PORT: ${{ vars.POSTGRES_PORT }}
+      POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+      POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.10
