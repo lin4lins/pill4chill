@@ -1,11 +1,11 @@
 version: '1.0'
 services:
-  api:
+  app:
     build:
       context: ./pill4chill
     command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - ./pill4chill/:/usr/src/api/
+      - ./pill4chill/:/usr/src/app/
     ports:
       - "8000:8000"
     env_file:
