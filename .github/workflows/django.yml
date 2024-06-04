@@ -21,7 +21,14 @@ jobs:
         cd pill4chill
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Print name
+      run: echo "$BUILD My API_KEY is ${{secrets.POSTGRES_DB_NAME}}"
+      env:
+        BUILD: 'We are currently running the Build job'
     - name: Run Tests
+      run: |
+        cd pill4chill
+        python manage.py test
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DEBUG: ${{ secrets.DEBUG }}
@@ -31,6 +38,3 @@ jobs:
         POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
         POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
         POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-      run: |
-        cd pill4chill
-        python manage.py test
