@@ -10,17 +10,21 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.10.11]
-
+    env:
+      SECRET_KEY: ${{ vars.SECRET_KEY }}
+      DEBUG: ${{ vars.DEBUG }}
+      POSTGRES_ENGINE: ${{ vars.POSTGRES_ENGINE }}
+      POSTGRES_DB_NAME: ${{ vars.DB_NAME }}
+      POSTGRES_USER: ${{ secrets.DB_USER }}
+      POSTGRES_PASSWORD: ${{ vars.DB_PASSWORD }}
+      POSTGRES_HOST: ${{ vars.POSTGRES_HOST }}
+      POSTGRES_PORT: ${{ vars.POSTGRES_PORT }}
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.10
     - name: Install Dependencies
       run: |
         cd pill4chill
