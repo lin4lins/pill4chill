@@ -9,36 +9,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.10.11]
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v2
       with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and push Docker images
       run: |
-        cd pill4chill
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Verify environment variables
-      run: |
-        echo "SECRET_KEY is set"
-        echo "DEBUG: ${{ secrets.DEBUG }}"
-        echo "POSTGRES_ENGINE: ${{ secrets.POSTGRES_ENNE }}"
-        echo "POSTGRES_DB_NAME: ${{ secrets.POSTGRES_DB_NAME }}"
-        echo "POSTGRES_USER: ${{ secrets.POSTGRES_USER }}"
-        echo "POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}"
-        echo "POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}"
-        echo "ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}"
-    - name: Run Tests
-      run: |
-        cd pill4chill
-        python manage.py test
+        docker-compose -f path/to/your/docker-compose.yml build
+        docker-compose -f path/to/your/docker-compose.yml up -d
+        docker-compose -f path/to/your/docker-compose.yml run app sh -c "python manage.py test"
+        docker-compose -f path/to/your/docker-compose.yml down
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DEBUG: ${{ secrets.DEBUG }}
