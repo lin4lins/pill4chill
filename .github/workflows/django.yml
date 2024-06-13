@@ -25,6 +25,16 @@ jobs:
         cd pill4chill
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Verify environment variables
+      run: |
+        echo "SECRET_KEY is set"
+        echo "DEBUG: ${{ secrets.DEBUG }}"
+        echo "POSTGRES_ENGINE: ${{ secrets.POSTGRES_ENGINE }}"
+        echo "POSTGRES_DB_NAME: ${{ secrets.POSTGRES_DB_NAME }}"
+        echo "POSTGRES_USER: ${{ secrets.POSTGRES_USER }}"
+        echo "POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}"
+        echo "POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}"
+        echo "ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}"
     - name: Run Tests
       run: |
         cd pill4chill
