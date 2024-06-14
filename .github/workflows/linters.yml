@@ -26,7 +26,7 @@ jobs:
         run: |
           git fetch origin main
           git diff origin/main...HEAD > diff.patch
-          diff-cover --compare-branch=origin/main --flake8 diff.patch
+          flake8 --diff < diff.patch
 
       - name: Check with black
         run: |
